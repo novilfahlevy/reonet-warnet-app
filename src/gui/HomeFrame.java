@@ -9,19 +9,19 @@ package gui;
  * @author novil
  */
 public class HomeFrame extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Home
      */
-    public HomeFrame() {
+    public HomeFrame(int operatorId) {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setSize(800, 600);
         
-        BillingPanel billingPanel = new BillingPanel();
-        KomputerPanel komputerPanel = new KomputerPanel();
-        OperatorPanel operatorPanel = new OperatorPanel();
+        BillingPanel billingPanel = new BillingPanel(operatorId);
+        ComputerPanel komputerPanel = new ComputerPanel(operatorId);
+        OperatorPanel operatorPanel = new OperatorPanel(operatorId);
         
         homeTabbedPane.addTab("Billing", billingPanel);
         homeTabbedPane.addTab("Komputer", komputerPanel);
@@ -94,7 +94,7 @@ public class HomeFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomeFrame().setVisible(true);
+                new HomeFrame(0).setVisible(true);
             }
         });
     }

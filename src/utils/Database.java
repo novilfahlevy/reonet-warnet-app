@@ -15,10 +15,10 @@ public class Database {
     private String password = "";
     
     public Database(String host, String database, String username, String password) {
-        host = host;
-        database = database;
-        username = username;
-        password = password;
+        this.host = host;
+        this.database = database;
+        this.username = username;
+        this.password = password;
     }
     
     public Connection koneksi() {
@@ -26,7 +26,7 @@ public class Database {
             String url = "jdbc:mysql://" + host + "/" + database;
             Class.forName("com.mysql.jdbc.Driver");
             
-            conn = DriverManager.getConnection(url, this.username, this.password);
+            this.conn = DriverManager.getConnection(url, username, password);
             
             System.out.println("koneksi berhasil");
         } catch (Exception e) {

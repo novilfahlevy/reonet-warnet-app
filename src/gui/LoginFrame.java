@@ -113,8 +113,9 @@ public class LoginFrame extends javax.swing.JFrame {
             return;
         }
         
-        if (Operator.auth(username, password)) {
-            HomeFrame homeFrame = new HomeFrame();
+        int operatorId = Operator.auth(username, password);
+        if (operatorId > 0) {
+            HomeFrame homeFrame = new HomeFrame(operatorId);
             homeFrame.setVisible(true);
             
             setVisible(false);

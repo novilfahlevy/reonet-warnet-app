@@ -4,17 +4,78 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import models.Computer;
+import models.Operator;
+
 /**
  *
  * @author novil
  */
 public class OperatorPanel extends javax.swing.JPanel {
+    
+    private int indexRowSelected;
 
     /**
      * Creates new form Operator
      */
-    public OperatorPanel() {
+    public OperatorPanel(int operatorId) {
         initComponents();
+        
+        Operator.currentOperatorId = operatorId;
+        
+        OperatorPanel self = this;
+        getTableSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                self.indexRowSelected = operatorsTable.getSelectedRow();
+                if (!e.getValueIsAdjusting() && self.indexRowSelected >= 0) { // This line prevents double events
+                    setToEditMode();
+                }
+            }
+        });
+        
+        fetchOperatorsData();
+    }
+    
+    public void fetchOperatorsData() {
+        DefaultTableModel model = (DefaultTableModel) operatorsTable.getModel();
+        model.setRowCount(0);
+        for (Operator operator : Operator.get()) {
+            model.addRow(new Object[] { operator.getId(), operator.getUsername(), operator.getRegisteredDate() });
+        }
+        setToCreateMode();
+    }
+    
+    public ListSelectionModel getTableSelectionModel() {
+        return operatorsTable.getSelectionModel();
+    }
+    
+    public int getSelectedId() {
+        return Integer.parseInt(operatorsTable.getValueAt(indexRowSelected, 0).toString());
+    }
+    
+    public String getSelectedUsername() {
+        return operatorsTable.getValueAt(indexRowSelected, 1).toString();
+    }
+    
+    public void setToCreateMode() {
+        this.indexRowSelected = -1;
+        usernameTextField.setText("");
+        passwordTextField.setText("");
+        addOperatorButton.setText("Tambah");
+        getTableSelectionModel().clearSelection();
+    }
+    
+    public void setToEditMode() {
+        usernameTextField.setText(getSelectedUsername());
+        addOperatorButton.setText("Edit");
     }
 
     /**
@@ -26,14 +87,15 @@ public class OperatorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        operatorUsernameTextField = new javax.swing.JTextField();
+        usernameTextField = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         operatorsTable = new javax.swing.JTable();
         operatorUsernameLabel = new javax.swing.JLabel();
         addOperatorButton = new javax.swing.JButton();
         deleteOperatorButton = new javax.swing.JButton();
         operatorPasswordLabel = new javax.swing.JLabel();
-        operatorPasswordTextField = new javax.swing.JPasswordField();
+        passwordTextField = new javax.swing.JPasswordField();
+        clearSelectionButton = new javax.swing.JButton();
 
         operatorsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,6 +128,13 @@ public class OperatorPanel extends javax.swing.JPanel {
 
         operatorPasswordLabel.setText("Password");
 
+        clearSelectionButton.setText("Lepas Pilihan");
+        clearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearSelectionButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,9 +148,11 @@ public class OperatorPanel extends javax.swing.JPanel {
                             .addComponent(operatorPasswordLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(operatorUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(operatorPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(clearSelectionButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteOperatorButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addOperatorButton)))
@@ -98,36 +169,110 @@ public class OperatorPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(operatorUsernameLabel)
-                            .addComponent(operatorUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(operatorPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(operatorPasswordLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deleteOperatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addOperatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(addOperatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearSelectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void addOperatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOperatorButtonActionPerformed
-        // TODO add your handling code here:
+        String username = usernameTextField.getText();
+        String password = passwordTextField.getText();
+        Operator operator = new Operator();
+        
+        if (username.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Nama Operator belum diisi");
+            return;
+        }
+        
+        // create
+        if (indexRowSelected < 0) {
+            if (password.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Password Operator belum diisi");
+                return;
+            }
+
+            if (password.length() < 5) {
+                JOptionPane.showMessageDialog(null, "Password minimal harus berisi 5 karakter");
+                return;
+            }
+            
+            operator.setUsername(username);
+            operator.setPassword(password);
+
+            if (operator.create()) {
+                JOptionPane.showMessageDialog(null, "Operator berhasil ditambahkan");
+            } else {
+                JOptionPane.showMessageDialog(null, "Operator gagal ditambahkan");
+            }
+        // update
+        } else {
+            operator.setId(getSelectedId());
+            operator.setUsername(username);
+            
+            if (!password.isBlank()) {
+                if (password.length() >= 5) {
+                    operator.setPassword(password);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Password minimal harus berisi 5 karakter");
+                    return;
+                }
+            }
+            
+            if (operator.update()) {
+                JOptionPane.showMessageDialog(null, "Operator berhasil diedit");
+            } else {
+                JOptionPane.showMessageDialog(null, "Operator gagal diedit");
+            }
+        }
+        
+        fetchOperatorsData();
     }//GEN-LAST:event_addOperatorButtonActionPerformed
 
     private void deleteOperatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteOperatorButtonActionPerformed
-        // TODO add your handling code here:
+        if (indexRowSelected < 0) {
+            JOptionPane.showMessageDialog(null, "Mohon pilih data yang ingin dihapus");
+            return;
+        }
+        
+        String confirmMessage = String.format("Apakah anda yakin ingin menghapus data \"%s\"?", getSelectedUsername());
+        if (JOptionPane.showConfirmDialog(null, confirmMessage) == JOptionPane.OK_OPTION) {
+            Operator operator = new Operator();
+            operator.setId(getSelectedId());
+
+            if (operator.delete()) {
+                JOptionPane.showMessageDialog(null, "Operator berhasil dihapus");
+            } else {
+                JOptionPane.showMessageDialog(null, "Operator gagal dihapus");
+            }
+
+            fetchOperatorsData();
+        }
     }//GEN-LAST:event_deleteOperatorButtonActionPerformed
+
+    private void clearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSelectionButtonActionPerformed
+        getTableSelectionModel().clearSelection();
+        setToCreateMode();
+    }//GEN-LAST:event_clearSelectionButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addOperatorButton;
+    private javax.swing.JButton clearSelectionButton;
     private javax.swing.JButton deleteOperatorButton;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel operatorPasswordLabel;
-    private javax.swing.JPasswordField operatorPasswordTextField;
     private javax.swing.JLabel operatorUsernameLabel;
-    private javax.swing.JTextField operatorUsernameTextField;
     private javax.swing.JTable operatorsTable;
+    private javax.swing.JPasswordField passwordTextField;
+    private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }

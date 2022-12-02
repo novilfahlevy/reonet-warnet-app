@@ -26,11 +26,13 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="operatorUsernameTextField" min="-2" pref="250" max="-2" attributes="0"/>
-                          <Component id="operatorPasswordTextField" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="usernameTextField" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="passwordTextField" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
+                      <Component id="clearSelectionButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="deleteOperatorButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="addOperatorButton" min="-2" max="-2" attributes="0"/>
@@ -51,17 +53,18 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="operatorUsernameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="operatorUsernameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="usernameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="operatorPasswordTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="passwordTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="operatorPasswordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="deleteOperatorButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="addOperatorButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="clearSelectionButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -71,7 +74,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="operatorUsernameTextField">
+    <Component class="javax.swing.JTextField" name="usernameTextField">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
       <AuxValues>
@@ -119,7 +122,15 @@
         <Property name="text" type="java.lang.String" value="Password"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="operatorPasswordTextField">
+    <Component class="javax.swing.JPasswordField" name="passwordTextField">
+    </Component>
+    <Component class="javax.swing.JButton" name="clearSelectionButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lepas Pilihan"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearSelectionButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

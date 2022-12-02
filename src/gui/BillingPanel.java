@@ -4,19 +4,100 @@
  */
 package gui;
 
-import javax.swing.JTable;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import models.Billing;
+import models.Computer;
 
 /**
  *
  * @author novil
  */
 public class BillingPanel extends javax.swing.JPanel {
+    
+    private int operatorId;
+    private int indexRowSelected;
 
     /**
      * Creates new form Billing
      */
-    public BillingPanel() {
+    public BillingPanel(int operatorId) {
         initComponents();
+        
+        this.operatorId = operatorId;
+        
+        BillingPanel self = this;
+        getTableSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                self.indexRowSelected = billingsTable.getSelectedRow();
+                if (!e.getValueIsAdjusting() && self.indexRowSelected >= 0) { // This line prevents double events
+                    setToEditMode();
+                }
+            }
+        });
+        
+        computerComboBox.removeAllItems();
+        for (Computer computer : Computer.get()) {
+            computerComboBox.addItem(computer.getName());
+        }
+        
+        fetchBillingsData();
+    }
+    
+    public void fetchBillingsData() {
+        DefaultTableModel model = (DefaultTableModel) billingsTable.getModel();
+        model.setRowCount(0);
+        for (Billing billing : Billing.get()) {
+            model.addRow(new Object[] {
+                billing.getId(),
+                billing.getName(),
+                billing.getDate(),
+                billing.getDuration(),
+                billing.getOperator().getUsername(),
+                billing.getComputer().getName()
+            });
+        }
+        setToCreateMode();
+    }
+    
+    public ListSelectionModel getTableSelectionModel() {
+        return billingsTable.getSelectionModel();
+    }
+    
+    public int getSelectedId() {
+        return Integer.parseInt(billingsTable.getValueAt(indexRowSelected, 0).toString());
+    }
+    
+    public String getSelectedName() {
+        return billingsTable.getValueAt(indexRowSelected, 1).toString();
+    }
+    
+    public int getSelectedDuration() {
+        return Integer.parseInt(billingsTable.getValueAt(indexRowSelected, 3).toString());
+    }
+    
+    public String getSelectedComputer() {
+        return billingsTable.getValueAt(indexRowSelected, 5).toString();
+    }
+    
+    public void setToCreateMode() {
+        this.indexRowSelected = -1;
+        nameTextField.setText("");
+        durationSpinner.setValue(0);
+        computerComboBox.setSelectedIndex(0);
+        addBillingButton.setText("Tambah");
+        getTableSelectionModel().clearSelection();
+    }
+    
+    public void setToEditMode() {
+        nameTextField.setText(getSelectedName());
+        durationSpinner.setValue(getSelectedDuration());
+        computerComboBox.setSelectedItem(getSelectedComputer());
+        addBillingButton.setText("Edit");
     }
 
     /**
@@ -28,20 +109,17 @@ public class BillingPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        billingDateUntilLabel = new javax.swing.JLabel();
-        billingNameTextField = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         billingsTable = new javax.swing.JTable();
         addBillingButton = new javax.swing.JButton();
         deleteBillingButton = new javax.swing.JButton();
         billingComputerLabel = new javax.swing.JLabel();
-        billingComputerComboBox = new javax.swing.JTextField();
-        billingFromDateTextField = new javax.swing.JTextField();
         billingDateFromLabel = new javax.swing.JLabel();
-        billingUsernameTextField4 = new javax.swing.JTextField();
         billingNameLabel = new javax.swing.JLabel();
-
-        billingDateUntilLabel.setText("Sampai Tanggal");
+        computerComboBox = new javax.swing.JComboBox<>();
+        clearSelectionButton = new javax.swing.JButton();
+        durationSpinner = new javax.swing.JSpinner();
 
         billingsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -51,7 +129,7 @@ public class BillingPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No", "Tanggal Dari", "Tanggal Sampai", "Nama", "Operator", "Komputer"
+                "No", "Nama", "Tanggal", "Durasi", "Operator", "Komputer"
             }
         ));
         jScrollPane3.setViewportView(billingsTable);
@@ -72,44 +150,47 @@ public class BillingPanel extends javax.swing.JPanel {
 
         billingComputerLabel.setText("Komputer");
 
-        billingDateFromLabel.setText("Dari Tanggal");
+        billingDateFromLabel.setText("Durasi (jam)");
 
         billingNameLabel.setText("Nama");
+
+        clearSelectionButton.setText("Lepas Pilihan");
+        clearSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearSelectionButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addBillingButton)
-                        .addGap(10, 10, 10)
-                        .addComponent(deleteBillingButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(billingNameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(billingDateFromLabel)
+                                    .addComponent(billingComputerLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(billingNameLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(billingNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(billingDateFromLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                        .addComponent(billingFromDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(billingComputerLabel)
-                                    .addComponent(billingDateUntilLabel))
-                                .addGap(30, 30, 30)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(billingUsernameTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                                    .addComponent(billingComputerComboBox))))))
-                .addGap(20, 20, 20))
+                                    .addComponent(computerComboBox, 0, 250, Short.MAX_VALUE)
+                                    .addComponent(durationSpinner))))
+                        .addGap(18, 18, 18)
+                        .addComponent(addBillingButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteBillingButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearSelectionButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,46 +198,104 @@ public class BillingPanel extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(billingNameLabel)
-                    .addComponent(billingNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(billingComputerLabel)
-                    .addComponent(billingComputerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addBillingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBillingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearSelectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(billingDateFromLabel)
-                    .addComponent(billingFromDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(billingDateUntilLabel)
-                    .addComponent(billingUsernameTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(durationSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteBillingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addBillingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(billingComputerLabel)
+                    .addComponent(computerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void addBillingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBillingButtonActionPerformed
-        // TODO add your handling code here:
+        String name = nameTextField.getText();
+        int duration = Integer.parseInt(durationSpinner.getValue().toString());
+        String computer = computerComboBox.getSelectedItem().toString();
+        
+        System.out.println(computer);
+        
+        if (name.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Nama pembeli belum diisi");
+            return;
+        }
+        
+        if (duration <= 0) {
+            JOptionPane.showMessageDialog(null, "Durasi harus bernilai minimal 1 jam");
+            return;
+        }
+        
+        Billing billing = new Billing();
+        billing.setName(name);
+        billing.setOperatorId(operatorId);
+        billing.setComputerId(Computer.getIdByName(computer));
+        billing.setDuration(duration);
+        
+        // create
+        if (indexRowSelected < 0) {
+            if (billing.create()) {
+                JOptionPane.showMessageDialog(null, "Billing berhasil ditambahkan");
+            } else {
+                JOptionPane.showMessageDialog(null, "Billing gagal ditambahkan");
+            }
+        // update
+        } else {
+            billing.setId(getSelectedId());
+            if (billing.update()) {
+                JOptionPane.showMessageDialog(null, "Billing berhasil diedit");
+            } else {
+                JOptionPane.showMessageDialog(null, "Billing gagal diedit");
+            }
+        }
+        
+        fetchBillingsData();
     }//GEN-LAST:event_addBillingButtonActionPerformed
 
     private void deleteBillingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBillingButtonActionPerformed
-        // TODO add your handling code here:
+        if (indexRowSelected < 0) {
+            JOptionPane.showMessageDialog(null, "Mohon pilih data yang ingin dihapus");
+            return;
+        }
+        
+        if (JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus data?") == JOptionPane.OK_OPTION) {
+            Billing billing = new Billing();
+            billing.setId(getSelectedId());
+
+            if (billing.delete()) {
+                JOptionPane.showMessageDialog(null, "Billing berhasil dihapus");
+            } else {
+                JOptionPane.showMessageDialog(null, "Billing gagal dihapus");
+            }
+
+            fetchBillingsData();
+        }
     }//GEN-LAST:event_deleteBillingButtonActionPerformed
+
+    private void clearSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSelectionButtonActionPerformed
+        getTableSelectionModel().clearSelection();
+        setToCreateMode();
+    }//GEN-LAST:event_clearSelectionButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBillingButton;
-    private javax.swing.JTextField billingComputerComboBox;
     private javax.swing.JLabel billingComputerLabel;
     private javax.swing.JLabel billingDateFromLabel;
-    private javax.swing.JLabel billingDateUntilLabel;
-    private javax.swing.JTextField billingFromDateTextField;
     private javax.swing.JLabel billingNameLabel;
-    private javax.swing.JTextField billingNameTextField;
-    private javax.swing.JTextField billingUsernameTextField4;
     private javax.swing.JTable billingsTable;
+    private javax.swing.JButton clearSelectionButton;
+    private javax.swing.JComboBox<String> computerComboBox;
     private javax.swing.JButton deleteBillingButton;
+    private javax.swing.JSpinner durationSpinner;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField nameTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,46 +16,39 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="addBillingButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="deleteBillingButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane3" alignment="0" pref="754" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane3" alignment="1" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="billingNameLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="billingNameTextField" min="-2" pref="250" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="billingDateFromLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="47" max="32767" attributes="0"/>
-                                      <Component id="billingFromDateTextField" min="-2" pref="250" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="billingNameLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="49" max="32767" attributes="0"/>
+                              <Component id="nameTextField" min="-2" pref="250" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="billingDateFromLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="billingComputerLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="billingDateUntilLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="billingUsernameTextField4" pref="252" max="32767" attributes="0"/>
-                                  <Component id="billingComputerComboBox" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="computerComboBox" pref="250" max="32767" attributes="0"/>
+                                  <Component id="durationSpinner" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="addBillingButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deleteBillingButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="clearSelectionButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -65,36 +58,30 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="billingNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="billingNameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="billingComputerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="billingComputerComboBox" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="nameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="addBillingButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="deleteBillingButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="clearSelectionButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="billingDateFromLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="billingFromDateTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="billingDateUntilLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="billingUsernameTextField4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="durationSpinner" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="deleteBillingButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="addBillingButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="billingComputerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="computerComboBox" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane3" min="-2" pref="375" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="billingDateUntilLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Sampai Tanggal"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="billingNameTextField">
+    <Component class="javax.swing.JTextField" name="nameTextField">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
       <AuxValues>
@@ -108,9 +95,9 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="4">
                 <Column editable="true" title="No" type="java.lang.Object"/>
-                <Column editable="true" title="Tanggal Dari" type="java.lang.Object"/>
-                <Column editable="true" title="Tanggal Sampai" type="java.lang.Object"/>
                 <Column editable="true" title="Nama" type="java.lang.Object"/>
+                <Column editable="true" title="Tanggal" type="java.lang.Object"/>
+                <Column editable="true" title="Durasi" type="java.lang.Object"/>
                 <Column editable="true" title="Operator" type="java.lang.Object"/>
                 <Column editable="true" title="Komputer" type="java.lang.Object"/>
               </Table>
@@ -140,21 +127,35 @@
         <Property name="text" type="java.lang.String" value="Komputer"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="billingComputerComboBox">
-    </Component>
-    <Component class="javax.swing.JTextField" name="billingFromDateTextField">
-    </Component>
     <Component class="javax.swing.JLabel" name="billingDateFromLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Dari Tanggal"/>
+        <Property name="text" type="java.lang.String" value="Durasi (jam)"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="billingUsernameTextField4">
     </Component>
     <Component class="javax.swing.JLabel" name="billingNameLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nama"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="computerComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="clearSelectionButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lepas Pilihan"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearSelectionButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="durationSpinner">
     </Component>
   </SubComponents>
 </Form>
